@@ -46,7 +46,7 @@ class LinesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def line_params
-      params.fetch(:line, {})
+      params.require(:data).require(:attributes).permit(:name)
     end
 
     def render_errors(model)
