@@ -20,7 +20,7 @@ class LinesController < ApplicationController
     if @line.save
       render json: @line, status: :created, location: @line
     else
-      render json: @line.errors, status: :unprocessable_entity
+      render_errors(@line)
     end
   end
 
@@ -29,7 +29,7 @@ class LinesController < ApplicationController
     if @line.update(line_params)
       render json: @line
     else
-      render json: @line.errors, status: :unprocessable_entity
+      render_errors(@line)
     end
   end
 
@@ -47,5 +47,9 @@ class LinesController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def line_params
       params.fetch(:line, {})
+    end
+
+    def render_errors(model)
+      render json: ErrorSerializer.serialize(model.errors), status: :unprocessable_entity
     end
 end
